@@ -17,8 +17,8 @@ OBJS = Process.class Driver.class FrameTable.class Frame.class
 all:	$(EXEC)
 
 ${EXEC}: Driver.class FrameTable.class Process.class Frame.class
-Driver.class: Driver.java
-FrameTable.class: FrameTable.java
+Driver.class: Driver.java Process.class FrameTable.class
+FrameTable.class: FrameTable.java Process.class Frame.class
 Process.class: Process.java
 Frame.class: Frame.java
 
