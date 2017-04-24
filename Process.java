@@ -1,14 +1,14 @@
 public class Process{
   //Track the global max page number.
   private static int maxPage = 0;
-  private static final int PAGE_SIZE = 4;
+  private static int PAGE_SIZE;
 
   private int pID, memSize, pageStart;
-
+  
   Process(int pID, int memSize){
     this.pID = pID;
     this.memSize = memSize;
-    pageStart = maxPage + (memSize / PAGE_SIZE);
+    pageStart = maxPage;
     maxPage += memSize/PAGE_SIZE;
     if(memSize % PAGE_SIZE != 0){
       maxPage++;
@@ -33,10 +33,14 @@ public class Process{
     }else{
       return -1;
     }
-  } 
+  }
+
+  static public void setPageSize(int pageSize){
+    PAGE_SIZE = pageSize;
+  }
   
   public String toString(){
-   return pID + " " + memSize + " " + pageStart + "\n";
+   return pID + " " + memSize + " " + pageStart;
   }
 
 }
