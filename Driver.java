@@ -3,7 +3,8 @@ import java.util.ArrayList;
 
 public class Driver{
 
-  static String[] validAlgs = {"lru", "fifo", "sclru"};
+  static final String[] validAlgs = {"lru", "fifo", "sclru"};
+  static final int BUFFER_SPACE = 512;
 
   public static void main(String args[]){
     if(args.length != 5){
@@ -82,11 +83,28 @@ public class Driver{
             return;
           }
         }
-        for(Process process : programs){
-          System.out.println(process);
-        }
+      
+        //Finished loading program list data into memory.
+        
 
         //Start reading from command list and perform swaps.
+        FrameTable frameTable = new FrameTable(BUFFER_SPACE, pageSize, 
+            alg, paging, programs);
+
+        FileReader commandReader = new FileReader(commandList);
+        BufferedReader commandBuffer = new BufferedReader(commandReader);
+        while((inputLine = commandBuffer.readLine()) != null && inputLine.length() > 0){
+          try{
+            //Seperate the arguments.
+            String[] inputs = inputLine.split(" ");
+            frameTable.loadMem(Integer.parseInt(inputs[0]), Integer.parseInt(inputs[1]));
+          }catch(NumberFormatException ex){
+            System.out.println("Error while reading commandlist file");
+            return;
+          }  
+        }
+        System.out.println("Performed " + frameTable.getSwapCount() + " page swaps."); 
+
       }catch(IOException ex){
         System.out.println("Error handling file: " + ex);
       }
