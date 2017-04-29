@@ -196,6 +196,7 @@ public class FrameTable{
       frames[frameIndex].setRefBit(false);
     }else{
       frames[frameIndex] = null;
+      currIdx = frameIndex;
     }
   }
 

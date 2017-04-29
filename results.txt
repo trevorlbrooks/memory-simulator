@@ -23,8 +23,8 @@
 4 lru p,71396
 8 lru p,64817
 16 lru p,62401
-1 sclru p,118343
-2 sclru p,89109
-4 sclru p,74342
-8 sclru p,67150
-16 sclru p,94025
+1 sclru p,112016
+2 sclru p,85022
+4 sclru p,71395
+8 sclru p,64721
+16 sclru p,65157
