@@ -69,20 +69,37 @@ public class FrameTable{
 
     //If not, then load it.
     if(!found){
-      switch (algorithm){
-        case "lru":
-          lru(process, relMemAddress);
-          break;
-        case "sclru":
-          sclru(process, relMemAddress);
-          break;
-        case "fifo":
-          fifo(process, relMemAddress);
-          break;
-        default:
-          System.out.println("Broken algorithm call.");
-          break;
-      } 
+      if(paging.equalsIgnoreCase("d")){
+        switch (algorithm){
+          case "lru":
+            lru(process, relMemAddress);
+            break;
+          case "sclru":
+            sclru(process, relMemAddress);
+            break;
+          case "fifo":
+            fifo(process, relMemAddress);
+            break;
+          default:
+            System.out.println("Broken algorithm call.");
+            break;
+        } 
+      }else{
+        switch (algorithm){
+          case "lru":
+            lruP(process, relMemAddress);
+            break;
+          case "sclru":
+            sclruP(process, relMemAddress);
+            break;
+          case "fifo":
+            fifoP(process, relMemAddress);
+            break;
+          default:
+            System.out.println("Broken algorithm call.");
+            break;
+        }   
+      }
       swapCount++;
     }
   }
@@ -144,23 +161,42 @@ public class FrameTable{
     swap(replIdx, process, relMemAddress);
   }
   
+  private void fifoP(Process process, int relMemAddress){
+    fifo(process, relMemAddress);
+    fifo(process, process.getNextPageAddress(relMemAddress));
+  }
+
+  private void lruP(Process process, int relMemAddress){
+    lru(process, relMemAddress);
+    lru(process, process.getNextPageAddress(relMemAddress));
+  }
+
+  private void sclruP(Process process, int relMemAddress){
+    sclru(process, relMemAddress);
+    sclru(process, process.getNextPageAddress(relMemAddress)); 
+  }
+
   //Performs a swap given a frame index and a page number.
   //Allows us to not rewrite swap for each algorithm.
   //Also will handle prepaging vs demand paging.
   private void swap(int frameIndex, Process process, int relMemAddress){
-    int pageNum = process.getPageNumber(relMemAddress);
-    frames[frameIndex] = new Frame(pageNum);
-    
-    //Set age for fifo
-    frames[frameIndex].setAge(maxAge);
-    maxAge++;
+    if(process != null && relMemAddress !=-1){
+      int pageNum = process.getPageNumber(relMemAddress);
+      frames[frameIndex] = new Frame(pageNum);
 
-    //Set access time for LRU
-    frames[frameIndex].setLastAccess(maxAccessTime);
-    maxAccessTime++;
+      //Set age for fifo
+      frames[frameIndex].setAge(maxAge);
+      maxAge++;
 
-    //Set reference bit for SCLRU
-    frames[frameIndex].setRefBit(false);
+      //Set access time for LRU
+      frames[frameIndex].setLastAccess(maxAccessTime);
+      maxAccessTime++;
+
+      //Set reference bit for SCLRU
+      frames[frameIndex].setRefBit(false);
+    }else{
+      frames[frameIndex] = null;
+    }
   }
 
   public int getSwapCount(){

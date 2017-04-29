@@ -42,5 +42,21 @@ public class Process{
   public String toString(){
    return pID + " " + memSize + " " + pageStart;
   }
+  
+  public int getNextPageNumber(int relMemAddress){
+    if((getPageNumber(relMemAddress) + 1) * PAGE_SIZE < memSize){
+      return getPageNumber(relMemAddress) + 1;
+    }else{
+      return -1;
+    }
+  }
+
+  public int getNextPageAddress(int relMemAddress){
+    if((getPageNumber(relMemAddress) + 1) * PAGE_SIZE < memSize){
+      return (getPageNumber(relMemAddress) + 1)* PAGE_SIZE;   
+    }else{
+      return -1;
+    }
+  }
 
 }

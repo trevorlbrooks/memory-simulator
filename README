@@ -1,0 +1,15 @@
+To make the project run: make clean && make
+
+To run the full suite of tests that was used to obtain the
+data in the report run: ./runTests.sh
+
+This is a Java based project that was developed and tested on
+Katie. 
+
+The calling structure is:
+java Driver programlist programtrace 2 fifo d
+
+Valid page sizes are: 1, 2, 4, 8, 16
+Valid algorithms are: fifo, lru, sclru
+Valid paging options are: d , p  (demand or prepage)
+

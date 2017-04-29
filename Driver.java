@@ -103,7 +103,7 @@ public class Driver{
             return;
           }  
         }
-        System.out.println("Performed " + frameTable.getSwapCount() + " page swaps."); 
+        System.out.println(frameTable.getSwapCount() + ""); 
 
       }catch(IOException ex){
         System.out.println("Error handling file: " + ex);
